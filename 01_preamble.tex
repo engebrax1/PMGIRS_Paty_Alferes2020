@@ -1,0 +1,527 @@
+% Classe do documento - PREÂMBULO
+\documentclass[a4paper, oneside, 11pt,]{report} %showframe
+%\documentclass[chapterprefix=false,appendixprefix=true]{scrreprt}
+\usepackage[printonlyused,withpage]{acronym}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc} %%%caracteres latinos
+%\usepackage{lmodern}
+\usepackage{txfonts}
+\usepackage[a4paper, left=3cm, right=2cm, top=4.3cm, bottom=3.7cm]{geometry}
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{enumitem}
+\usepackage{wasysym}
+\usepackage{blindtext}
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage{slashbox}
+\usepackage{booktabs}
+\usepackage{tabularx}	
+\usepackage{longtable}
+%\usepackage{ctable}
+\usepackage{color}
+\usepackage{colortbl}
+%\usepackage{europs}%simbolo euro
+%\usepackage[gen]{eurosym}
+\usepackage{placeins} 
+\usepackage{savesym}
+\savesymbol{iint}
+\savesymbol{iiint}
+\savesymbol{iiiint}
+\savesymbol{idotsint}
+%\usepackage[version=4]{mhchem}
+\usepackage{txfonts}
+\restoresymbol{TXF}{iint}
+% c o m m a n d  \text  f r o m   a m s m a t h
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+\DeclareRobustCommand{\text}{%
+  \ifmmode\expandafter\text@\else\expandafter\mbox\fi}
+\let\nfss@text\text
+\def\text@#1{{\mathchoice
+  {\textdef@\displaystyle\f@size{#1}}%
+  {\textdef@\textstyle\f@size{#1}}%
+  {\textdef@\textstyle\sf@size{#1}}%
+  {\textdef@\textstyle \ssf@size{#1}}%
+  \check@mathfonts
+  }%
+}
+\def\textdef@#1#2#3{\hbox{{%
+                    \everymath{#1}%
+                    \let\f@size#2\selectfont
+                    #3}}}
+\makeatother
+% c o m m a n d  \text  f r o m   a m s m a t h
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\usepackage{helvet}
+
+\newtheorem{theorem}{Proposição}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+%\usepackage{framed}
+%\input{nicetoc}
+\usepackage{etoolbox}
+\usepackage{pstricks-add}
+
+% % % % % % % % % % % % % % % % % % % % % % % % % %
+\makeatletter
+\tikzstyle{chart}=[
+legend label/.style={font={\scriptsize},anchor=west,align=left},
+legend box/.style={rectangle, draw, minimum size=5pt},
+axis/.style={black, semithick,->},
+axis label/.style={anchor=east,font={\tiny}},
+]
+
+\tikzstyle{bar chart}=[
+chart,
+bar width/.code={
+	\pgfmathparse{##1/2}
+	\global\let\bar@w\pgfmathresult
+},
+bar/.style={very thick, draw=white},
+bar label/.style={font={\bf\small},anchor=north},
+bar value/.style={font={\footnotesize}},
+bar width=.75,
+]
+
+\tikzstyle{pie chart}=[
+chart,
+slice/.style={line cap=round, line join=round, very thick,draw=white},
+pie title/.style={font={\bf}},
+slice type/.style 2 args={
+	##1/.style={fill=##2},
+	values of ##1/.style={}
+}
+]
+\newcommand{\pie}[3][]{
+	\begin{scope}[#1]
+		\pgfmathsetmacro{\curA}{90}
+		\pgfmathsetmacro{\r}{1}
+		\def\c{(0,0)}
+		\node[pie title] at (90:1.3) {#2};
+		\foreach \v/\s in{#3}{
+			\pgfmathsetmacro{\deltaA}{\v/100*360}
+			\pgfmathsetmacro{\nextA}{\curA + \deltaA}
+			\pgfmathsetmacro{\midA}{(\curA+\nextA)/2}
+			
+			\path[slice,\s] \c
+			-- +(\curA:\r)
+			arc (\curA:\nextA:\r)
+			-- cycle;
+			\pgfmathsetmacro{\d}{max((\deltaA * -(.5/50) + 1) , .5)}
+			
+			\begin{pgfonlayer}{foreground}
+				\path \c -- node[pos=\d,pie values,values of \s]{$\v\%$} +(\midA:\r);
+			\end{pgfonlayer}
+			\global\let\curA\nextA
+		}
+	\end{scope}
+}
+
+\newcommand{\legend}[2][]{
+	\begin{scope}[#1]
+		\path
+		\foreach \n/\s in {#2}
+		{
+			++(0,-10pt) node[\s,legend box] {} +(5pt,0) node[legend label] {\n}
+		}
+		;
+	\end{scope}
+}
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+
+
+%\usepackage{floatrow} % Table float box with bottom caption, box width adjusted to content
+%	\floatsetup[table]{style=plaintop}
+%	\DeclareFloatSeparators{MySep}{\hspace{-12pt}}
+%	\floatsetup[figure]{style=plain, floatrowsep=Mysep}
+%	\floatsetup[subfigure]{subfloatrowsep=none}
+
+\usepackage{marvosym}
+\usepackage{import}
+\usepackage[normalem]{ulem} %permite sublinhar palavras
+
+\usepackage[activate={true,nocompatibility}, final, tracking=true, kerning=true, spacing=true factor=1100,stretch=10,shrink=10]{microtype}
+\SetProtrusion{encoding={*},family={bch},series={*},size={6,7}}
+              {1={ ,750},2={ ,500},3={ ,500},4={ ,500},5={ ,500},
+
+               6={ ,500},7={ ,600},8={ ,500},9={ ,500},0={ ,500}}
+\microtypecontext{spacing=nonfrench}
+
+\SetExtraKerning[unit=space]
+    {encoding={*}, family={bch}, series={*}, size={footnotesize,small,normalsize}}
+    {\textendash={400,400}, % en-dash, add more space around it
+     "28={ ,150}, % left bracket, add space from right
+     "29={150, }, % right bracket, add space from left
+     \textquotedblleft={ ,150}, % left quotation mark, space from right
+     \textquotedblright={150, }} % right quotation mark, space from left
+
+\SetExtraKerning[unit=space]
+   {encoding={*}, family={qhv}, series={b}, size={large,Large}}
+   {1={-200,-200}, 
+    \textendash={400,400}}
+
+\SetTracking{encoding={*}, shape=sc}{40}
+
+% activate={true,nocompatibility} - activate protrusion and expansion
+% final - enable microtype; use "draft" to disable
+% tracking=true, kerning=true, spacing=true - activate these techniques
+% factor=1100 - add 10% to the protrusion amount (default is 1000)
+% stretch=10, shrink=10 - reduce stretchability/shrinkability (default is 20/20)
+
+%\usepackage{datetime}
+\usepackage[flushleft]{threeparttable}
+
+\usepackage{lscape}
+\usepackage{multicol}
+% -> tabela colorida
+\usepackage{colortbl}
+\usepackage{array}
+	\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+	\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+	\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+%\usepackage[table]{xcolor}
+%%%%%%%%%%%%%%
+\usepackage{pdfpages}
+\usepackage{wrapfig}
+%\usepackage{cutwin}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setcounter{secnumdepth}{3} % profundidade do sumário
+\setcounter{tocdepth}{3} % % profundidade do sumário
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{tikz} \usetikzlibrary{fit,arrows,calc,positioning,fit, decorations.pathreplacing,tikzmark,patterns}\usepgfplotslibrary{fillbetween}\usetikzlibrary{matrix}\usetikzlibrary{plotmarks}
+\usetikzlibrary{fadings}\usetikzlibrary{shapes.geometric}
+
+% % % % % % % % % % % % % % % %
+%https://tex.stackexchange.com/questions/340139/create-a-container-in-a-block-diagram-with-tikz-package
+%\tikzstyle{block} = [draw, rectangle, text width=4.5cm, text centered, minimum height=1.5cm, node distance = 5.5cm and 1cm]
+%\tikzstyle{container} = []
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+\usepackage[skins]{tcolorbox}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+
+
+\usepackage{indentfirst}
+\usepackage[brazil]{babel}
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage{pdfpages}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{caption}
+	\captionsetup{labelsep=endash,
+					font=small,
+					labelfont=bf,
+					textfont=small,
+					listformat=simple,
+					figurewithin=none,
+					tablewithin=none}
+%\renewcommand{\thetable}{\thechapter.\arabic{table}}
+%\renewcommand{\thefigure}{\arabic{figure}}
+\usepackage{subcaption}
+	\renewcommand{\thesubfigure}{Fig. \thefigure.\arabic{subfigure}}
+%	\DeclareCaptionSubType*[labelsep]{subfigure}
+	\captionsetup[subfigure]{labelformat=simple,labelsep=space}
+%	listofformat=subsimple}
+%	\captionsetup{lofdepth=2}
+%	\makeatletter
+%	\renewcommand{\p@subfigure}{}
+%\makeatother
+
+%\captionsetup[table]{name = Quadro}
+\newcommand{\aref}[1]{\cref{#1} \textendash ~\nameref{#1}} % Anexo A - Título do Anexo
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\thispagestyle{plain}
+\usepackage{fancyhdr}
+\usepackage{titletoc}
+\usepackage{titlesec}
+
+%\setcounter{secnumdepth}{3}
+
+%%% cabeçalho e rodapé p/ páginas
+\pagestyle{fancy}
+	\fancyhead{} % clear all header fields
+	\fancyhead[L]{ENGEBRAX \textendash~Saneamento e Tecnologia Ambiental}
+	\fancyhead[R]{\thepage}
+	\fancyfoot{} % clear all footer fields
+	\cfoot{PMGIRS - Plano Municipal de Gestão Integrada de Resíduos Sólidos \\ Produto 2 - Caracterização Municipal}
+	\renewcommand{\headrulewidth}{1pt} %espessura da linha do cabeçalho
+	\renewcommand{\footrulewidth}{1pt} %espessura da linha do rodapé
+\fancypagestyle{plain}{ % cabeçalho e rodapé p/ início de capítulos
+	\fancyhead{} % clear all header fields
+	\fancyhead[L]{ENGEBRAX \textendash~Saneamento e Tecnologia Ambiental}
+	\fancyhead[R]{\thepage}
+	\fancyfoot{} % clear all footer fields
+	\cfoot{PMGIRS - Plano Municipal de Gestão Integrada de Resíduos Sólidos \\ Produto 2 - Caracterização Municipal}
+	\renewcommand{\headrulewidth}{1pt} %espessura da linha do cabeçalho
+	\renewcommand{\footrulewidth}{1pt}} %espessura da linha do rodapé
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\headheight}{14.5pt}
+%% F O R M A T A Ç Ã O  D E  C A P Í T U L O S ,  S E Ç Õ E S ...
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titleclass{\part}{top} % make part like a chapter
+\titleformat{\part}
+[display]
+{\centering\normalfont\Large\bfseries}
+{\titlerule[2pt]\vspace{3pt}\titlerule[1pt]\vspace{3pt}\MakeUppercase{\partname} \thepart}
+{0pt}
+{\titlerule[1pt]\vspace{1pc}\Large\MakeUppercase}
+%
+\titlespacing*{\part}{0pt}{0pt}{20pt}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titlespacing*{\chapter}{0pt}{10pt}{20pt} % espaço entre o cabeçalho e capítulo
+%
+\titleformat{\chapter}[display]
+  {\normalfont %\sffamily
+	\large \bfseries}
+  {\chaptertitlename\ \thechapter}{16pt}{\large \MakeUppercase }
+\titleformat{\section}
+  {\normalfont %\sffamily
+	 \normalsize \bfseries}
+  {\thesection}{1em}{}
+\titleformat{\subsection}
+%% subsection format
+  {\normalfont %\sffamily
+	 \normalsize \bfseries}
+  {\thesubsection}{1em}{}
+%% subsubsection format
+\titleformat{\subsubsection}
+  {\normalfont \MakeLowercase %\sffamily
+	 \normalsize \bfseries}
+  {\thesubsubsection}{1em}{}
+%% paragraph format
+\titleformat{\paragraph}
+    {\MakeLowercase \normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\subparagraph}{\parindent}{3.25ex plus 1ex minus .2ex}{.75ex plus .1ex}
+%% subparagraph format
+\titleformat{\subparagraph}
+    {\MakeLowercase\normalfont\normalsize\bfseries}{\thesubparagraph}{1em}{}
+\titlespacing*{\subparagraph}{\parindent}{3.25ex plus 1ex minus .2ex}{.75ex plus .1ex}
+
+%%%% F O R M A T A Ç Ã O  T Í T U L O  D O  S U M Á R I O
+\usepackage{tocloft} %change table of contents
+
+\setlength{\cftbeforetoctitleskip}{10pt} % espaço vertical antes do titulo toc
+\setlength{\cftaftertoctitleskip}{20pt} % espaço vertical depois do titulo toc
+
+\setlength{\cftbeforeloftitleskip}{10pt} % espaço vertical antes do titulo lof
+\setlength{\cftafterloftitleskip}{20pt} % espaço vertical antes do titulo lof
+
+\setlength{\cftbeforelottitleskip}{10pt}% espaço vertical antes do titulo lot
+\setlength{\cftafterlottitleskip}{20pt}% espaço vertical antes do titulo lot
+
+%\setlength{\cha}
+
+%add o label Figura - na Lista de Figuras
+	\newlength{\mylen}
+	\renewcommand{\cftfigpresnum}{\figurename\enspace}
+	\renewcommand{\cftfigaftersnum}{ \textendash }
+	\settowidth{\mylen}{\cftfigpresnum}
+	\addtolength{\cftfignumwidth}{\dimexpr\mylen}
+	\setlength{\cftfigindent}{0pt}% no indent
+
+%add o label Tabela - na Lista de Tabelas
+	\renewcommand{\cfttabpresnum}{\tablename\enspace}
+	\renewcommand{\cfttabaftersnum}{ \textendash }
+	\settowidth{\mylen}{0.6\cfttabpresnum\cfttabaftersnum}
+	\addtolength{\cfttabnumwidth}{0.7\mylen}
+	\setlength{\cfttabindent}{0pt}% no indent
+%sumário upper case
+
+% centralizar sumário
+	\renewcommand{\cfttoctitlefont}{\hfill \large \bfseries \MakeUppercase} 
+	\renewcommand{\cftaftertoctitle}{\hfill}
+
+% centralizar lista de figuras
+	\renewcommand{\cftloftitlefont}{\hfill \large \bfseries \MakeUppercase }
+	\renewcommand{\cftafterloftitle}{\hfill}
+
+% centralizar lista de tabelas
+	\renewcommand{\cftlottitlefont}{\hfill \large\bfseries \MakeUppercase }
+	\renewcommand{\cftafterlottitle}{\hfill}
+
+
+% % % A N E X O S % % % 
+
+\usepackage{appendix}
+
+\let\oldappendices\appendices
+\def\appendices{\oldappendices\adjustmtc}
+
+\appendixpageoff
+
+\newlength{\tocnumwidth}
+\newlength{\temp}
+\setlength{\tocnumwidth}{\cftchapnumwidth} % store the starting width of the TOC chapter number
+
+%\renewcommand{\cftchappresnum}{\chaptername\space}
+%\settowidth{\temp}{\bfseries\cftchappresnum\cftchapaftersnum} % calculate the extra space
+%\addtolength{\cftchapnumwidth}{\temp} % add the extra space
+% uncomment the 3 lines above  if you want the word Chapter to precede the number in the TOC
+
+\renewcommand*{\cftchapaftersnum}{\space}
+
+\renewcommand{\appendixname}{ANEXO}
+
+\DeclareRobustCommand{\changetoapp}{%
+	\renewcommand*{\cftchappresnum}{ANEXO\space}%
+	\renewcommand{\cftchapaftersnum}{~\textendash}
+	\settowidth{\temp}{\bfseries\cftchappresnum\cftchapaftersnum}
+% comment the line above out if you include Chapter before the number in the TOC want the Chapter and Appendix TOC entries to line up.
+	\renewcommand{\cftsecaftersnum}{~\textendash}
+
+   \setlength\cftchapnumwidth{\tocnumwidth}
+   \addtolength{\cftchapnumwidth}{\temp}
+%%
+	\setlength\cftsecnumwidth{\tocnumwidth}
+	\addtolength{\cftsecnumwidth}{0.35\temp}}
+%%
+\let\oldappendix\appendix
+\renewcommand*{\appendix}{\oldappendix \addtocontents{toc}{\changetoapp}}
+
+%
+
+
+%new command to insert a blank page
+\newcommand{\insertblankpage}{
+\vfill
+\newpage
+\thispagestyle{empty}
+\mbox{}
+\newpage
+}
+%new command to insert a page break
+\newcommand{\startnewpage}{
+\vfill
+\pagebreak[4]
+}
+
+%\usepackage{xparse}
+%\DeclareDocumentCommand \sectionlevel{ s m m }% s = an optional asterisk, m = mandatory argument
+%	{ 
+%	\IfBooleanTF{#1}
+%	{
+%		\ifnumcomp{#2}{=}{0}{\addcontentsline{toc}{part}{#3} \part*{#3}}{}
+%		\ifnumcomp{#2}{=}{1}{\addcontentsline{toc}{chapter}{#3} \chapter*{\hfill #3 \hfill}}{}
+%		\ifnumcomp{#2}{=}{2}{\addcontentsline{toc}{section}{#3} \section*{#3}}{}
+%		\ifnumcomp{#2}{=}{3}{\addcontentsline{toc}{subsection}{#3} \subsection*{#3}}{}
+%		\ifnumcomp{#2}{=}{4}{\addcontentsline{toc}{subsubsection}{#3} \subsubsection*{#3}}{}
+%		\ifnumcomp{#2}{=}{5}{\paragraph*{#3}}{}
+%		\ifnumcomp{#2}{=}{6}{\subparagraph*{#3}}{}
+%	}
+%	{
+%		\ifnumcomp{#2}{=}{0}{\part{#3}} {}
+%		\ifnumcomp{#2}{=}{1}{\chapter{#3}}{}
+%		\ifnumcomp{#2}{=}{2}{\section{#3}}{}
+%		\ifnumcomp{#2}{=}{3}{\subsection{#3}}{}
+%		\ifnumcomp{#2}{=}{4}{\subsubsection{#3}}{}
+%		\ifnumcomp{#2}{=}{5}{\paragraph{#3}}{}
+%		\ifnumcomp{#2}{=}{6}{\subparagraph{#3}}{}
+%	}
+%
+%	}
+
+%\usepackage{hyperref}
+%\hypersetup{
+%	bookmarks=true,         % show bookmarks bar?
+%	unicode=false,          % non-Latin characters in Acrobat’s bookmarks
+%	pdftoolbar=true,        % show Acrobat’s toolbar?
+%	pdfmenubar=true,        % show Acrobat’s menu?
+%	pdffitwindow=false,     % window fit to page when opened
+%	pdfstartview={FitH},    % fits the width of the page to the window
+%	pdftitle={My title},    % title
+%	pdfauthor={Author},     % author
+%	pdfsubject={Subject},   % subject of the document
+%	pdfcreator={Creator},   % creator of the document
+%	pdfproducer={Producer}, % producer of the document
+%	pdfkeywords={keyword1} {key2} {key3}, % list of keywords
+%	pdfnewwindow=true,      % links in new window
+%	colorlinks=false,       % false: boxed links; true: colored links
+%	linkcolor=red,          % color of internal links (change box color with linkbordercolor)
+%	citecolor=green,        % color of links to bibliography
+%	filecolor=magenta,      % color of file links
+%	urlcolor=cyan           % color of external links
+%	hidelinks = true
+%}
+
+
+\usepackage{etoc}
+%\newcommand*{\figuretotoc}{\etoctoccontentsline{Figure}{\thefig}}
+
+
+
+\usepackage{cleveref} %referencia
+\usepackage{nameref}
+	\crefname{part}{Parte}{Partes}
+	\crefname{chapter}{Capítulo}{Capítulos}
+	\crefname{section}{Seção}{Seções}
+	\crefname{subsection}{Seção}{Seções}
+	\crefname{subsubsection}{Seção}{Seções}
+	\crefname{figure}{Figura}{Figuras} % changes default behavior to Figure. 1
+	\crefname{table}{Tabela}{Tabelas}
+	\crefname{equation}{Equação}{Equações}
+	\crefname{subfigure}{Figura}{Figuras}
+	\crefname{subsubfigure}{Figura}{Figuras}
+	\crefname{appendix}{Anexo}{Anexos}
+			
+\makeatletter
+\let\titlesec@part\part
+\renewcommand{\part}{\@ifstar\part@star\part@nostar}
+\def\part@star#1{\NR@gettitle{#1}\titlesec@part*{#1}}
+\def\part@nostar{\@ifnextchar[\part@nostar@opt\part@nostar@nopt}
+\def\part@nostar@nopt#1{\NR@gettitle{#1}\titlesec@part{#1}}
+\def\part@nostar@opt[#1]#2{\NR@gettitle{#2}\titlesec@part[#1]{#2}}
+\makeatother
+
+\usepackage{stackengine}
+%bordas na imagem
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\setlength\fboxsep{0pt}    %%%%%%%%%%%%%%%%%%
+	\setlength\fboxrule{0.75pt}%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[style=abnt-numeric, backend = biber]{biblatex}
+\addbibresource{patydoalferes.bib}
+	\begin{document}
+
+\newcommand{\CustomCheckedBox}{\resizebox{!}{11pt}{%
+		\begin{tikzpicture}
+		\draw[line width=2pt, rounded corners] (0.75,1)--(0,1)--(0,0) -- (1,0) -- (1,0.5);
+		\draw[xshift=0cm,yshift=0.35cm,line width=2pt] (0.25,0.25)--(0.5,0)--(1,0.5);
+		\end{tikzpicture}}}
+
+\newcommand{\CustomSquare}{\resizebox{!}{11pt}{%
+		\begin{tikzpicture}
+		\draw[line width=2pt, rounded corners] (1,1)--(0,1)--(0,0) -- (1,0) -- cycle;
+		\end{tikzpicture}}%
+}
+\renewcommand{\thefootnote}{\textit{\alph{footnote}}}
+\let\oldcite\cite\renewcommand*\cite[1]{\textsuperscript{\oldcite{#1}}}
+\newenvironment{myquote}%
+{\small\singlespacing\list{}{\leftmargin=4cm\rightmargin=0.0in}\item[]}%
+{\endlist}
+\input{02_capa}
+\input{03_resumo}
+
+\import{./01-conteudo/}{24-XXIV}
+
+\printbibliography
+
+\input{anexos}
+
+\import{./02-anexos/}{00}
+
+\end{document}

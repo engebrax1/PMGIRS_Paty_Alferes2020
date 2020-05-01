@@ -1,0 +1,39 @@
+%%%% L I S T A  D E  F I G U R A S  -  O P C I O N A L %%%%%%% 
+\newpage
+\microtypesetup{protrusion=false}
+\addcontentsline{toc}{chapter}{LISTA DE FIGURAS}
+\listoffigures
+
+\clearpage
+
+
+%\ifnumodd{\value{page}}{\insertblankpage}{\vfill\clearpage} % I N S E R I R  P Á G I N A  E M  B R A N C O
+%%%% L I S T A  D E  T A B E L A S -  O P C I O N A L
+
+
+\addcontentsline{toc}{chapter}{LISTA DE TABELAS}
+\listoftables
+
+
+ %%%%%%%%%%%%%%%% S U M Á R I O  -  O B R I G A T Ó R I O %%%%%%%%%%%%%%%%
+
+\fancyhead[LE,RO]{}
+\fancypagestyle{plain}{\fancyhead[LE,RO]{}}
+
+
+\let\etoctableofcontents\tableofcontents
+\etocsetlevel{appendixplaceholder}{6}
+
+\etocmulticolstyle[1]{\chapter*{\hfill SUMÁRIO \hfill}}
+
+\etoctableofcontents
+\etocsetlevel{appendixplaceholder}{-1}
+
+
+\clearpage
+
+\microtypesetup{protrusion=true}
+
+\renewcommand{\thepage}{\arabic{page}}%
+\fancyhead[LE,RO]{\thepage}
+\fancypagestyle{plain}{\fancyhead[LE,RO]{\thepage}}
